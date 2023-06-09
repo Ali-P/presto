@@ -21,7 +21,6 @@ import com.facebook.presto.common.type.DecimalType;
 import com.facebook.presto.common.type.FixedWidthType;
 import com.facebook.presto.common.type.StandardTypes;
 import com.facebook.presto.common.type.Type;
-import com.facebook.presto.common.type.TypeManager;
 import com.facebook.presto.common.type.TypeSignature;
 import com.facebook.presto.metadata.FunctionAndTypeManager;
 import com.facebook.presto.operator.HashGenerator;
@@ -37,7 +36,6 @@ import static com.facebook.presto.common.type.BigintType.BIGINT;
 import static com.facebook.presto.spi.StandardErrorCode.NOT_SUPPORTED;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Throwables.throwIfUnchecked;
-import static com.google.common.collect.ImmutableList.toImmutableList;
 
 public final class TypeUtils
 {
@@ -110,11 +108,6 @@ public final class TypeUtils
         }
     }
 
-    public static Type resolveType(TypeSignature typeName, TypeManager typeManager)
-    {
-        return typeManager.getType(typeName);
-    }
-
     public static boolean isIntegralType(TypeSignature typeName, FunctionAndTypeManager functionAndTypeManager)
     {
         switch (typeName.getBase()) {
@@ -124,18 +117,11 @@ public final class TypeUtils
             case StandardTypes.TINYINT:
                 return true;
             case StandardTypes.DECIMAL:
-                DecimalType decimalType = (DecimalType) resolveType(typeName, functionAndTypeManager);
+                DecimalType decimalType = (DecimalType) com.facebook.presto.common.type.TypeUtils.resolveType(typeName, functionAndTypeManager);
                 return decimalType.getScale() == 0;
             default:
                 return false;
         }
-    }
-
-    public static List<Type> resolveTypes(List<TypeSignature> typeNames, FunctionAndTypeManager functionAndTypeManager)
-    {
-        return typeNames.stream()
-                .map((TypeSignature type) -> resolveType(type, functionAndTypeManager))
-                .collect(toImmutableList());
     }
 
     public static long getHashPosition(List<? extends Type> hashTypes, Block[] hashBlocks, int position)

@@ -11,14 +11,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.facebook.presto.metadata;
-
-import com.facebook.presto.spi.function.Signature;
-import com.facebook.presto.spi.function.SqlFunction;
+package com.facebook.presto.spi.function;
 
 import java.util.Objects;
 
-import static com.facebook.presto.metadata.SignatureBinder.applyBoundVariables;
+import static com.facebook.presto.spi.function.SignatureBinder.applyBoundVariables;
 import static java.util.Objects.requireNonNull;
 
 public class SpecializedFunctionKey

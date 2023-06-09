@@ -13,9 +13,9 @@
  */
 package com.facebook.presto.operator;
 
-import com.facebook.presto.metadata.BoundVariables;
 import com.facebook.presto.metadata.FunctionAndTypeManager;
 import com.facebook.presto.operator.annotations.ImplementationDependency;
+import com.facebook.presto.spi.function.BoundVariables;
 
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;

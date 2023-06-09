@@ -15,8 +15,8 @@ package com.facebook.presto.operator.annotations;
 
 import com.facebook.presto.common.function.OperatorType;
 import com.facebook.presto.common.type.TypeSignature;
-import com.facebook.presto.metadata.BoundVariables;
 import com.facebook.presto.metadata.FunctionAndTypeManager;
+import com.facebook.presto.spi.function.BoundVariables;
 import com.facebook.presto.spi.function.FunctionHandle;
 import com.facebook.presto.spi.function.InvocationConvention;
 import com.google.common.collect.ImmutableList;
@@ -25,8 +25,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-import static com.facebook.presto.metadata.SignatureBinder.applyBoundVariables;
-import static com.facebook.presto.sql.analyzer.TypeSignatureProvider.fromTypeSignatures;
+import static com.facebook.presto.spi.analyzer.TypeSignatureProvider.fromTypeSignatures;
+import static com.facebook.presto.spi.function.SignatureBinder.applyBoundVariables;
 import static java.util.Objects.requireNonNull;
 
 public final class OperatorImplementationDependency

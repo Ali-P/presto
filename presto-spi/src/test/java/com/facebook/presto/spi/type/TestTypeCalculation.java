@@ -11,12 +11,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.facebook.presto.type;
+package com.facebook.presto.spi.type;
 
 import com.google.common.collect.ImmutableMap;
 import org.testng.annotations.Test;
 
-import static com.facebook.presto.type.TypeCalculation.calculateLiteralValue;
+import static com.facebook.presto.spi.type.TypeCalculation.calculateLiteralValue;
 import static org.testng.Assert.assertEquals;
 
 public class TestTypeCalculation

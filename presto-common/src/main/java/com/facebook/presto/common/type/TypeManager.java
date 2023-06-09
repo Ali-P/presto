@@ -14,6 +14,7 @@
 package com.facebook.presto.common.type;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface TypeManager
 {
@@ -28,4 +29,10 @@ public interface TypeManager
     Type getParameterizedType(String baseTypeName, List<TypeSignatureParameter> typeParameters);
 
     boolean canCoerce(Type actualType, Type expectedType);
+
+    Optional<Type> getCommonSuperType(Type firstType, Type secondType);
+
+    boolean isTypeOnlyCoercion(Type actualType, Type expectedType);
+
+    Optional<Type> coerceTypeBase(Type sourceType, String resultTypeBase);
 }

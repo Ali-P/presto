@@ -18,6 +18,7 @@ import com.facebook.presto.common.type.Type;
 import com.facebook.presto.metadata.PolymorphicScalarFunction.PolymorphicScalarFunctionChoice;
 import com.facebook.presto.operator.scalar.ScalarFunctionImplementationChoice.ArgumentProperty;
 import com.facebook.presto.operator.scalar.ScalarFunctionImplementationChoice.ReturnPlaceConvention;
+import com.facebook.presto.spi.function.BoundVariables;
 import com.facebook.presto.spi.function.Signature;
 import com.facebook.presto.spi.function.SqlFunctionVisibility;
 import com.google.common.collect.ImmutableList;

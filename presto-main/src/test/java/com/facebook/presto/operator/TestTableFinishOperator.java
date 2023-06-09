@@ -58,8 +58,8 @@ import static com.facebook.presto.operator.PageSinkCommitStrategy.LIFESPAN_COMMI
 import static com.facebook.presto.operator.PageSinkCommitStrategy.NO_COMMIT;
 import static com.facebook.presto.operator.TableWriterUtils.STATS_START_CHANNEL;
 import static com.facebook.presto.operator.aggregation.GenericAccumulatorFactory.generateAccumulatorFactory;
+import static com.facebook.presto.spi.analyzer.TypeSignatureProvider.fromTypes;
 import static com.facebook.presto.spi.statistics.ColumnStatisticType.MAX_VALUE;
-import static com.facebook.presto.sql.analyzer.TypeSignatureProvider.fromTypes;
 import static com.facebook.presto.testing.TestingSession.testSessionBuilder;
 import static com.facebook.presto.testing.TestingTaskContext.createTaskContext;
 import static com.google.common.base.Preconditions.checkState;

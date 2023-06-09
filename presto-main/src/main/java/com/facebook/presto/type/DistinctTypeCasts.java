@@ -15,11 +15,11 @@ package com.facebook.presto.type;
 
 import com.facebook.presto.common.type.DistinctType;
 import com.facebook.presto.common.type.Type;
-import com.facebook.presto.metadata.BoundVariables;
 import com.facebook.presto.metadata.FunctionAndTypeManager;
 import com.facebook.presto.metadata.SqlOperator;
 import com.facebook.presto.operator.scalar.BuiltInScalarFunctionImplementation;
 import com.facebook.presto.spi.PrestoException;
+import com.facebook.presto.spi.function.BoundVariables;
 import com.google.common.collect.ImmutableList;
 
 import static com.facebook.presto.common.function.OperatorType.CAST;

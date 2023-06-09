@@ -84,10 +84,10 @@ import static com.facebook.presto.expressions.RowExpressionNodeInliner.replaceEx
 import static com.facebook.presto.matching.Capture.newCapture;
 import static com.facebook.presto.metadata.CastType.CAST;
 import static com.facebook.presto.spi.StandardErrorCode.INVALID_SPATIAL_PARTITIONING;
+import static com.facebook.presto.spi.analyzer.TypeSignatureProvider.fromTypes;
 import static com.facebook.presto.spi.connector.ConnectorSplitManager.SplitSchedulingStrategy.UNGROUPED_SCHEDULING;
 import static com.facebook.presto.spi.connector.NotPartitionedPartitionHandle.NOT_PARTITIONED;
 import static com.facebook.presto.spi.plan.ProjectNode.Locality.LOCAL;
-import static com.facebook.presto.sql.analyzer.TypeSignatureProvider.fromTypes;
 import static com.facebook.presto.sql.planner.VariablesExtractor.extractUnique;
 import static com.facebook.presto.sql.planner.plan.JoinNode.Type.INNER;
 import static com.facebook.presto.sql.planner.plan.JoinNode.Type.LEFT;

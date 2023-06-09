@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
 
 import static com.facebook.presto.geospatial.type.GeometryType.GEOMETRY;
 import static com.facebook.presto.operator.aggregation.AggregationTestUtils.assertAggregation;
-import static com.facebook.presto.sql.analyzer.TypeSignatureProvider.fromTypes;
+import static com.facebook.presto.spi.analyzer.TypeSignatureProvider.fromTypes;
 
 public abstract class AbstractTestGeoAggregationFunctions
         extends AbstractTestFunctions

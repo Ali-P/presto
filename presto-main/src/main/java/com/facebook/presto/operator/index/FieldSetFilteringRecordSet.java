@@ -27,7 +27,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import static com.facebook.presto.sql.analyzer.TypeSignatureProvider.fromTypes;
+import static com.facebook.presto.spi.analyzer.TypeSignatureProvider.fromTypes;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Throwables.throwIfUnchecked;
 import static java.lang.Boolean.TRUE;

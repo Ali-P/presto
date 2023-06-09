@@ -20,10 +20,10 @@ import com.facebook.presto.common.block.SingleMapBlock;
 import com.facebook.presto.common.function.OperatorType;
 import com.facebook.presto.common.function.SqlFunctionProperties;
 import com.facebook.presto.common.type.Type;
-import com.facebook.presto.metadata.BoundVariables;
 import com.facebook.presto.metadata.FunctionAndTypeManager;
 import com.facebook.presto.metadata.SqlOperator;
 import com.facebook.presto.spi.PrestoException;
+import com.facebook.presto.spi.function.BoundVariables;
 import com.facebook.presto.spi.function.FunctionHandle;
 import com.facebook.presto.sql.InterpretedFunctionInvoker;
 import com.google.common.collect.ImmutableList;
@@ -44,8 +44,8 @@ import static com.facebook.presto.operator.scalar.ScalarFunctionImplementationCh
 import static com.facebook.presto.operator.scalar.ScalarFunctionImplementationChoice.NullConvention.RETURN_NULL_ON_NULL;
 import static com.facebook.presto.spi.StandardErrorCode.INVALID_FUNCTION_ARGUMENT;
 import static com.facebook.presto.spi.StandardErrorCode.NOT_SUPPORTED;
+import static com.facebook.presto.spi.analyzer.TypeSignatureProvider.fromTypes;
 import static com.facebook.presto.spi.function.Signature.typeVariable;
-import static com.facebook.presto.sql.analyzer.TypeSignatureProvider.fromTypes;
 import static com.facebook.presto.util.Reflection.methodHandle;
 import static java.lang.String.format;
 

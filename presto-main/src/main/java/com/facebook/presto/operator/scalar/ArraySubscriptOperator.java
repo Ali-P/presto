@@ -16,10 +16,10 @@ package com.facebook.presto.operator.scalar;
 import com.facebook.presto.annotation.UsedByGeneratedCode;
 import com.facebook.presto.common.block.Block;
 import com.facebook.presto.common.type.Type;
-import com.facebook.presto.metadata.BoundVariables;
 import com.facebook.presto.metadata.FunctionAndTypeManager;
 import com.facebook.presto.metadata.SqlOperator;
 import com.facebook.presto.spi.PrestoException;
+import com.facebook.presto.spi.function.BoundVariables;
 import com.google.common.collect.ImmutableList;
 import io.airlift.slice.Slice;
 

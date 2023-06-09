@@ -34,6 +34,7 @@ import com.facebook.presto.common.type.TypeWithName;
 import com.facebook.presto.common.type.UserDefinedType;
 import com.facebook.presto.operator.window.WindowFunctionSupplier;
 import com.facebook.presto.spi.PrestoException;
+import com.facebook.presto.spi.analyzer.TypeSignatureProvider;
 import com.facebook.presto.spi.function.AggregationFunctionImplementation;
 import com.facebook.presto.spi.function.AlterRoutineCharacteristics;
 import com.facebook.presto.spi.function.FunctionHandle;
@@ -52,7 +53,6 @@ import com.facebook.presto.spi.function.SqlFunctionId;
 import com.facebook.presto.spi.function.SqlInvokedFunction;
 import com.facebook.presto.sql.analyzer.FeaturesConfig;
 import com.facebook.presto.sql.analyzer.FunctionAndTypeResolver;
-import com.facebook.presto.sql.analyzer.TypeSignatureProvider;
 import com.facebook.presto.sql.gen.CacheStatsMBean;
 import com.facebook.presto.sql.tree.QualifiedName;
 import com.facebook.presto.transaction.TransactionManager;
@@ -90,10 +90,10 @@ import static com.facebook.presto.metadata.SessionFunctionHandle.SESSION_NAMESPA
 import static com.facebook.presto.spi.StandardErrorCode.FUNCTION_IMPLEMENTATION_MISSING;
 import static com.facebook.presto.spi.StandardErrorCode.FUNCTION_NOT_FOUND;
 import static com.facebook.presto.spi.StandardErrorCode.GENERIC_USER_ERROR;
+import static com.facebook.presto.spi.analyzer.TypeSignatureProvider.fromTypeSignatures;
 import static com.facebook.presto.spi.function.FunctionKind.SCALAR;
 import static com.facebook.presto.spi.function.SqlFunctionVisibility.EXPERIMENTAL;
 import static com.facebook.presto.spi.function.SqlFunctionVisibility.PUBLIC;
-import static com.facebook.presto.sql.analyzer.TypeSignatureProvider.fromTypeSignatures;
 import static com.facebook.presto.sql.planner.LiteralEncoder.MAGIC_LITERAL_FUNCTION_PREFIX;
 import static com.facebook.presto.sql.planner.LiteralEncoder.getMagicLiteralFunctionSignature;
 import static com.facebook.presto.transaction.InMemoryTransactionManager.createTestTransactionManager;
@@ -226,6 +226,12 @@ public class FunctionAndTypeManager
             public boolean isTypeOnlyCoercion(Type actualType, Type expectedType)
             {
                 return FunctionAndTypeManager.this.isTypeOnlyCoercion(actualType, expectedType);
+            }
+
+            @Override
+            public Optional<Type> coerceTypeBase(Type sourceType, String resultTypeBase)
+            {
+                return FunctionAndTypeManager.this.coerceTypeBase(sourceType, resultTypeBase);
             }
 
             @Override

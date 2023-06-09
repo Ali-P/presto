@@ -11,17 +11,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.facebook.presto.metadata;
+package com.facebook.presto.spi.function;
 
 import com.facebook.presto.common.type.Type;
-import com.google.common.collect.ImmutableMap;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-import static com.google.common.base.MoreObjects.toStringHelper;
-import static com.google.common.base.Preconditions.checkState;
+import static com.facebook.presto.common.Utils.checkState;
 import static java.util.Objects.requireNonNull;
 
 public class BoundVariables
@@ -34,8 +32,8 @@ public class BoundVariables
     {
         requireNonNull(typeVariables, "typeVariableBindings is null");
         requireNonNull(longVariables, "longVariableBindings is null");
-        this.typeVariables = ImmutableMap.copyOf(typeVariables);
-        this.longVariables = ImmutableMap.copyOf(longVariables);
+        this.typeVariables = new HashMap<>(typeVariables);
+        this.longVariables = new HashMap<>(longVariables);
     }
 
     public Type getTypeVariable(String variableName)
@@ -72,7 +70,7 @@ public class BoundVariables
     {
         checkState(variableName != null, "variableName is null");
         T value = map.get(variableName);
-        checkState(value != null, "value for variable '%s' is null", variableName);
+        checkState(value != null, "value for variable '" + variableName + "' is null");
         return value;
     }
 
@@ -85,7 +83,7 @@ public class BoundVariables
     private static <T> void setValue(Map<String, T> map, String variableName, T value)
     {
         checkState(variableName != null, "variableName is null");
-        checkState(value != null, "value for variable '%s' is null", variableName);
+        checkState(value != null, "value for variable '" + variableName + "' is null");
         map.put(variableName, value);
     }
 
@@ -112,10 +110,11 @@ public class BoundVariables
     @Override
     public String toString()
     {
-        return toStringHelper(this)
-                .add("typeVariables", typeVariables)
-                .add("longVariables", longVariables)
-                .toString();
+        return new StringBuilder(getClass().getSimpleName())
+                .append('{')
+                .append("typeVariables=").append(typeVariables)
+                .append(", longVariables=").append(longVariables)
+                .append('}').toString();
     }
 
     public static Builder builder()

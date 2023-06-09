@@ -34,7 +34,7 @@ import java.util.Optional;
 import static com.facebook.presto.bytecode.expression.BytecodeExpressions.constantTrue;
 import static com.facebook.presto.common.function.OperatorType.CAST;
 import static com.facebook.presto.common.function.OperatorType.EQUAL;
-import static com.facebook.presto.sql.analyzer.TypeSignatureProvider.fromTypes;
+import static com.facebook.presto.spi.analyzer.TypeSignatureProvider.fromTypes;
 import static com.facebook.presto.sql.gen.BytecodeUtils.ifWasNullPopAndGoto;
 import static com.facebook.presto.sql.gen.SpecialFormBytecodeGenerator.generateWrite;
 

@@ -14,10 +14,10 @@
 package com.facebook.presto.testing;
 
 import com.facebook.presto.common.type.TypeSignature;
-import com.facebook.presto.metadata.BoundVariables;
 import com.facebook.presto.metadata.FunctionAndTypeManager;
 import com.facebook.presto.operator.aggregation.AggregationFromAnnotationsParser;
 import com.facebook.presto.operator.aggregation.BuiltInAggregationFunctionImplementation;
+import com.facebook.presto.spi.function.BoundVariables;
 import com.google.common.annotations.VisibleForTesting;
 
 import java.util.List;

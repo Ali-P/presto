@@ -13,10 +13,10 @@
  */
 package com.facebook.presto.operator.scalar;
 
-import com.facebook.presto.metadata.BoundVariables;
 import com.facebook.presto.metadata.FunctionAndTypeManager;
 import com.facebook.presto.metadata.SqlOperator;
 import com.facebook.presto.spi.PrestoException;
+import com.facebook.presto.spi.function.BoundVariables;
 import com.facebook.presto.type.Re2JRegexp;
 import com.facebook.presto.type.Re2JRegexpType;
 import com.google.common.collect.ImmutableList;

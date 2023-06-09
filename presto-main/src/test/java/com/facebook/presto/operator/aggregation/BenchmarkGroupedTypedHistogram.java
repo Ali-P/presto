@@ -53,7 +53,7 @@ import static com.facebook.presto.block.BlockAssertions.createStringsBlock;
 import static com.facebook.presto.common.type.VarcharType.VARCHAR;
 import static com.facebook.presto.operator.aggregation.GenericAccumulatorFactory.generateAccumulatorFactory;
 import static com.facebook.presto.operator.aggregation.histogram.Histogram.NAME;
-import static com.facebook.presto.sql.analyzer.TypeSignatureProvider.fromTypes;
+import static com.facebook.presto.spi.analyzer.TypeSignatureProvider.fromTypes;
 
 @OutputTimeUnit(TimeUnit.SECONDS)
 //@BenchmarkMode(Mode.AverageTime)

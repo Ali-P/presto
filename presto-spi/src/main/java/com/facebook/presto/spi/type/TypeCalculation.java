@@ -11,18 +11,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.facebook.presto.type;
+package com.facebook.presto.spi.type;
 
-import com.facebook.presto.sql.parser.CaseInsensitiveStream;
-import com.facebook.presto.sql.parser.ParsingException;
-import com.facebook.presto.type.TypeCalculationParser.ArithmeticBinaryContext;
-import com.facebook.presto.type.TypeCalculationParser.ArithmeticUnaryContext;
-import com.facebook.presto.type.TypeCalculationParser.BinaryFunctionContext;
-import com.facebook.presto.type.TypeCalculationParser.IdentifierContext;
-import com.facebook.presto.type.TypeCalculationParser.NullLiteralContext;
-import com.facebook.presto.type.TypeCalculationParser.NumericLiteralContext;
-import com.facebook.presto.type.TypeCalculationParser.ParenthesizedExpressionContext;
-import com.facebook.presto.type.TypeCalculationParser.TypeCalculationContext;
+import com.facebook.presto.spi.sql.parser.CaseInsensitiveStream;
+import com.facebook.presto.spi.sql.parser.ParsingException;
+import com.facebook.presto.spi.type.TypeCalculationParser.ArithmeticBinaryContext;
+import com.facebook.presto.spi.type.TypeCalculationParser.ArithmeticUnaryContext;
+import com.facebook.presto.spi.type.TypeCalculationParser.BinaryFunctionContext;
+import com.facebook.presto.spi.type.TypeCalculationParser.IdentifierContext;
+import com.facebook.presto.spi.type.TypeCalculationParser.NullLiteralContext;
+import com.facebook.presto.spi.type.TypeCalculationParser.NumericLiteralContext;
+import com.facebook.presto.spi.type.TypeCalculationParser.ParenthesizedExpressionContext;
+import com.facebook.presto.spi.type.TypeCalculationParser.TypeCalculationContext;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.BaseErrorListener;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -35,13 +35,13 @@ import org.antlr.v4.runtime.misc.ParseCancellationException;
 import java.math.BigInteger;
 import java.util.Map;
 
-import static com.facebook.presto.type.TypeCalculationParser.ASTERISK;
-import static com.facebook.presto.type.TypeCalculationParser.MAX;
-import static com.facebook.presto.type.TypeCalculationParser.MIN;
-import static com.facebook.presto.type.TypeCalculationParser.MINUS;
-import static com.facebook.presto.type.TypeCalculationParser.PLUS;
-import static com.facebook.presto.type.TypeCalculationParser.SLASH;
-import static com.google.common.base.Preconditions.checkState;
+import static com.facebook.presto.common.Utils.checkState;
+import static com.facebook.presto.spi.type.TypeCalculationParser.ASTERISK;
+import static com.facebook.presto.spi.type.TypeCalculationParser.MAX;
+import static com.facebook.presto.spi.type.TypeCalculationParser.MIN;
+import static com.facebook.presto.spi.type.TypeCalculationParser.MINUS;
+import static com.facebook.presto.spi.type.TypeCalculationParser.PLUS;
+import static com.facebook.presto.spi.type.TypeCalculationParser.SLASH;
 import static java.util.Objects.requireNonNull;
 
 public final class TypeCalculation
@@ -210,7 +210,7 @@ public final class TypeCalculation
         {
             String identifier = ctx.getText();
             Long value = inputs.get(identifier);
-            checkState(value != null, "value for variable '%s' is not specified in the inputs", identifier);
+            checkState(value != null, "value for variable '" + identifier + "' is not specified in the inputs");
             return BigInteger.valueOf(value);
         }
 

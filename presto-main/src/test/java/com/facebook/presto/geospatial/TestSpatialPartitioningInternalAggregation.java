@@ -46,7 +46,7 @@ import static com.facebook.presto.operator.aggregation.AggregationTestUtils.getF
 import static com.facebook.presto.operator.aggregation.AggregationTestUtils.getGroupValue;
 import static com.facebook.presto.operator.aggregation.GenericAccumulatorFactory.generateAccumulatorFactory;
 import static com.facebook.presto.spi.StandardErrorCode.INVALID_FUNCTION_ARGUMENT;
-import static com.facebook.presto.sql.analyzer.TypeSignatureProvider.fromTypes;
+import static com.facebook.presto.spi.analyzer.TypeSignatureProvider.fromTypes;
 import static com.google.common.math.DoubleMath.roundToInt;
 import static java.math.RoundingMode.CEILING;
 import static org.testng.Assert.assertEquals;

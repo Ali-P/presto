@@ -16,6 +16,7 @@ package com.facebook.presto.common.type;
 import com.google.common.collect.ImmutableList;
 
 import java.util.List;
+import java.util.Optional;
 
 import static com.facebook.presto.common.type.BigintType.BIGINT;
 import static com.facebook.presto.common.type.BooleanType.BOOLEAN;
@@ -50,6 +51,24 @@ public class TestingTypeManager
 
     @Override
     public boolean canCoerce(Type actualType, Type expectedType)
+    {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Optional<Type> getCommonSuperType(Type firstType, Type secondType)
+    {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public boolean isTypeOnlyCoercion(Type actualType, Type expectedType)
+    {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Optional<Type> coerceTypeBase(Type sourceType, String resultTypeBase)
     {
         throw new UnsupportedOperationException();
     }

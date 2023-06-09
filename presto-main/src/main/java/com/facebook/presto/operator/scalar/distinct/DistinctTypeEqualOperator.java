@@ -15,10 +15,10 @@ package com.facebook.presto.operator.scalar.distinct;
 
 import com.facebook.presto.common.type.DistinctType;
 import com.facebook.presto.common.type.Type;
-import com.facebook.presto.metadata.BoundVariables;
 import com.facebook.presto.metadata.FunctionAndTypeManager;
 import com.facebook.presto.metadata.SqlOperator;
 import com.facebook.presto.operator.scalar.BuiltInScalarFunctionImplementation;
+import com.facebook.presto.spi.function.BoundVariables;
 import com.facebook.presto.spi.function.FunctionHandle;
 import com.google.common.collect.ImmutableList;
 
@@ -30,8 +30,8 @@ import static com.facebook.presto.common.type.StandardTypes.DISTINCT_TYPE;
 import static com.facebook.presto.common.type.TypeSignature.parseTypeSignature;
 import static com.facebook.presto.operator.scalar.ScalarFunctionImplementationChoice.ArgumentProperty.valueTypeArgumentProperty;
 import static com.facebook.presto.operator.scalar.ScalarFunctionImplementationChoice.NullConvention.RETURN_NULL_ON_NULL;
+import static com.facebook.presto.spi.analyzer.TypeSignatureProvider.fromTypes;
 import static com.facebook.presto.spi.function.Signature.withVariadicBound;
-import static com.facebook.presto.sql.analyzer.TypeSignatureProvider.fromTypes;
 
 public class DistinctTypeEqualOperator
         extends SqlOperator

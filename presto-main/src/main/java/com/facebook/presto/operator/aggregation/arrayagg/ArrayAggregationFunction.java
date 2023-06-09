@@ -18,7 +18,6 @@ import com.facebook.presto.common.block.Block;
 import com.facebook.presto.common.block.BlockBuilder;
 import com.facebook.presto.common.type.ArrayType;
 import com.facebook.presto.common.type.Type;
-import com.facebook.presto.metadata.BoundVariables;
 import com.facebook.presto.metadata.FunctionAndTypeManager;
 import com.facebook.presto.metadata.SqlAggregationFunction;
 import com.facebook.presto.operator.aggregation.AccumulatorCompiler;
@@ -26,6 +25,7 @@ import com.facebook.presto.operator.aggregation.BuiltInAggregationFunctionImplem
 import com.facebook.presto.spi.function.AccumulatorState;
 import com.facebook.presto.spi.function.AccumulatorStateFactory;
 import com.facebook.presto.spi.function.AccumulatorStateSerializer;
+import com.facebook.presto.spi.function.BoundVariables;
 import com.facebook.presto.spi.function.aggregation.Accumulator;
 import com.facebook.presto.spi.function.aggregation.AggregationMetadata;
 import com.facebook.presto.spi.function.aggregation.AggregationMetadata.AccumulatorStateDescriptor;

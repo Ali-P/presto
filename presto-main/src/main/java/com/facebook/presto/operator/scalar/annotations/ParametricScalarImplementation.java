@@ -19,7 +19,6 @@ import com.facebook.presto.common.type.FunctionType;
 import com.facebook.presto.common.type.Type;
 import com.facebook.presto.common.type.TypeManager;
 import com.facebook.presto.common.type.TypeSignature;
-import com.facebook.presto.metadata.BoundVariables;
 import com.facebook.presto.metadata.FunctionAndTypeManager;
 import com.facebook.presto.operator.ParametricImplementation;
 import com.facebook.presto.operator.annotations.FunctionsParserHelper;
@@ -31,6 +30,7 @@ import com.facebook.presto.operator.scalar.ScalarFunctionImplementationChoice.Nu
 import com.facebook.presto.operator.scalar.ScalarFunctionImplementationChoice.ReturnPlaceConvention;
 import com.facebook.presto.spi.function.BlockIndex;
 import com.facebook.presto.spi.function.BlockPosition;
+import com.facebook.presto.spi.function.BoundVariables;
 import com.facebook.presto.spi.function.IsNull;
 import com.facebook.presto.spi.function.LongVariableConstraint;
 import com.facebook.presto.spi.function.Signature;

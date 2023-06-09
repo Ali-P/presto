@@ -11,18 +11,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.facebook.presto.sql.analyzer;
+package com.facebook.presto.spi.analyzer;
 
 import com.facebook.presto.common.type.Type;
 import com.facebook.presto.common.type.TypeSignature;
-import com.google.common.collect.ImmutableList;
 
 import java.util.List;
 import java.util.function.Function;
 
-import static com.google.common.base.Preconditions.checkState;
-import static com.google.common.collect.ImmutableList.toImmutableList;
+import static com.facebook.presto.common.Utils.checkState;
+import static java.util.Arrays.asList;
+import static java.util.Collections.emptyList;
 import static java.util.Objects.requireNonNull;
+import static java.util.stream.Collectors.toList;
 
 public class TypeSignatureProvider
 {
@@ -50,19 +51,19 @@ public class TypeSignatureProvider
 
     public TypeSignature getTypeSignature()
     {
-        checkState(!hasDependency);
-        return typeSignatureResolver.apply(ImmutableList.of());
+        checkState(!hasDependency, "");
+        return typeSignatureResolver.apply(emptyList());
     }
 
     public TypeSignature getTypeSignature(List<Type> boundTypeParameters)
     {
-        checkState(hasDependency);
+        checkState(hasDependency, "");
         return typeSignatureResolver.apply(boundTypeParameters);
     }
 
     public static List<TypeSignatureProvider> fromTypes(Type... types)
     {
-        return fromTypes(ImmutableList.copyOf(types));
+        return fromTypes(asList(types.clone()));
     }
 
     public static List<TypeSignatureProvider> fromTypes(List<? extends Type> types)
@@ -70,19 +71,19 @@ public class TypeSignatureProvider
         return types.stream()
                 .map(Type::getTypeSignature)
                 .map(TypeSignatureProvider::new)
-                .collect(toImmutableList());
+                .collect(toList());
     }
 
     public static List<TypeSignatureProvider> fromTypeSignatures(TypeSignature... typeSignatures)
     {
-        return fromTypeSignatures(ImmutableList.copyOf(typeSignatures));
+        return fromTypeSignatures(asList(typeSignatures.clone()));
     }
 
     public static List<TypeSignatureProvider> fromTypeSignatures(List<? extends TypeSignature> typeSignatures)
     {
         return typeSignatures.stream()
                 .map(TypeSignatureProvider::new)
-                .collect(toImmutableList());
+                .collect(toList());
     }
 
     @Override

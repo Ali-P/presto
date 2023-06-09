@@ -48,4 +48,11 @@ public final class Utils
             throw new IllegalArgumentException();
         }
     }
+
+    public static void checkState(boolean condition, String message)
+    {
+        if (!condition) {
+            throw new IllegalStateException(message);
+        }
+    }
 }

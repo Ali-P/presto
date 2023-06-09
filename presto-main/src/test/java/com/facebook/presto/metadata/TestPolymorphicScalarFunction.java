@@ -18,6 +18,7 @@ import com.facebook.presto.common.block.LongArrayBlock;
 import com.facebook.presto.common.type.StandardTypes;
 import com.facebook.presto.common.type.TypeSignature;
 import com.facebook.presto.operator.scalar.BuiltInScalarFunctionImplementation;
+import com.facebook.presto.spi.function.BoundVariables;
 import com.facebook.presto.spi.function.Signature;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;

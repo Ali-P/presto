@@ -33,7 +33,7 @@ import static com.facebook.presto.common.type.StandardTypes.TDIGEST;
 import static com.facebook.presto.common.type.TypeSignature.parseTypeSignature;
 import static com.facebook.presto.operator.aggregation.AggregationTestUtils.assertAggregation;
 import static com.facebook.presto.operator.aggregation.TestMergeTDigestFunction.TDIGEST_EQUALITY;
-import static com.facebook.presto.sql.analyzer.TypeSignatureProvider.fromTypes;
+import static com.facebook.presto.spi.analyzer.TypeSignatureProvider.fromTypes;
 import static com.facebook.presto.tdigest.TDigest.createTDigest;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static java.lang.String.format;

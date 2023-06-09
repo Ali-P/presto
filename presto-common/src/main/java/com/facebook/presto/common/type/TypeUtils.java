@@ -202,4 +202,16 @@ public final class TypeUtils
         return entries.entrySet().stream()
                 .collect(toMap(e -> e.getKey().toUpperCase(ENGLISH), Map.Entry::getValue));
     }
+
+    public static Type resolveType(TypeSignature typeName, TypeManager typeManager)
+    {
+        return typeManager.getType(typeName);
+    }
+
+    public static List<Type> resolveTypes(List<TypeSignature> typeNames, TypeManager typeManager)
+    {
+        return typeNames.stream()
+                .map((TypeSignature type) -> resolveType(type, typeManager))
+                .collect(Collectors.toList());
+    }
 }

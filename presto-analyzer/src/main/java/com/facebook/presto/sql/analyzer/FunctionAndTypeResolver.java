@@ -18,6 +18,7 @@ import com.facebook.presto.common.function.OperatorType;
 import com.facebook.presto.common.transaction.TransactionId;
 import com.facebook.presto.common.type.Type;
 import com.facebook.presto.common.type.TypeManager;
+import com.facebook.presto.spi.analyzer.TypeSignatureProvider;
 import com.facebook.presto.spi.function.FunctionHandle;
 import com.facebook.presto.spi.function.FunctionMetadataManager;
 import com.facebook.presto.spi.function.SqlFunction;

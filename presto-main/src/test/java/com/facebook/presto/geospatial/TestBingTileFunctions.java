@@ -45,7 +45,7 @@ import static com.facebook.presto.geospatial.BingTileUtils.MIN_LONGITUDE;
 import static com.facebook.presto.geospatial.type.BingTileType.BING_TILE;
 import static com.facebook.presto.operator.aggregation.AggregationTestUtils.assertAggregation;
 import static com.facebook.presto.operator.scalar.ApplyFunction.APPLY_FUNCTION;
-import static com.facebook.presto.sql.analyzer.TypeSignatureProvider.fromTypes;
+import static com.facebook.presto.spi.analyzer.TypeSignatureProvider.fromTypes;
 import static com.facebook.presto.util.ResourceFileUtils.getResourceFile;
 import static java.lang.String.format;
 import static java.util.Collections.emptyList;

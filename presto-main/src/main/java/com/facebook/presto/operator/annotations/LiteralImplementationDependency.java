@@ -13,8 +13,8 @@
  */
 package com.facebook.presto.operator.annotations;
 
-import com.facebook.presto.metadata.BoundVariables;
 import com.facebook.presto.metadata.FunctionAndTypeManager;
+import com.facebook.presto.spi.function.BoundVariables;
 
 import static java.util.Objects.requireNonNull;
 

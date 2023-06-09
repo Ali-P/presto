@@ -40,9 +40,9 @@ import java.util.Optional;
 import java.util.Set;
 
 import static com.facebook.presto.common.type.BooleanType.BOOLEAN;
+import static com.facebook.presto.spi.analyzer.TypeSignatureProvider.fromTypes;
 import static com.facebook.presto.spi.relation.SpecialFormExpression.Form.COALESCE;
 import static com.facebook.presto.spi.relation.SpecialFormExpression.Form.SWITCH;
-import static com.facebook.presto.sql.analyzer.TypeSignatureProvider.fromTypes;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static java.util.Arrays.asList;
 

@@ -22,7 +22,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import static com.facebook.presto.common.type.DecimalType.createDecimalType;
 import static com.facebook.presto.common.type.Decimals.MAX_PRECISION;
 import static com.facebook.presto.common.type.DoubleType.DOUBLE;
-import static com.facebook.presto.sql.analyzer.TypeSignatureProvider.fromTypes;
+import static com.facebook.presto.spi.analyzer.TypeSignatureProvider.fromTypes;
 
 public class TestApproximateCountDistinctLongDecimal
         extends AbstractTestApproximateCountDistinct

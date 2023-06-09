@@ -29,7 +29,7 @@ import java.util.List;
 import static com.facebook.presto.block.BlockAssertions.createBlockOfReals;
 import static com.facebook.presto.common.type.RealType.REAL;
 import static com.facebook.presto.operator.aggregation.AggregationTestUtils.assertAggregation;
-import static com.facebook.presto.sql.analyzer.TypeSignatureProvider.fromTypes;
+import static com.facebook.presto.spi.analyzer.TypeSignatureProvider.fromTypes;
 import static java.lang.Float.floatToRawIntBits;
 
 @Test(singleThreaded = true)

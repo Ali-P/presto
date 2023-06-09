@@ -28,8 +28,8 @@ import java.util.List;
 
 import static com.facebook.presto.common.type.TypeSignature.parseTypeSignature;
 import static com.facebook.presto.common.type.TypeUtils.readNativeValue;
+import static com.facebook.presto.spi.analyzer.TypeSignatureProvider.fromTypes;
 import static com.facebook.presto.spi.function.Signature.orderableWithVariadicBound;
-import static com.facebook.presto.sql.analyzer.TypeSignatureProvider.fromTypes;
 import static com.facebook.presto.type.TypeUtils.checkElementNotNull;
 import static com.facebook.presto.util.Failures.internalError;
 

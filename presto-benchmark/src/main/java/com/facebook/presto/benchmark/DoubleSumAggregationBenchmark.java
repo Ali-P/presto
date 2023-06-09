@@ -29,7 +29,7 @@ import java.util.Optional;
 import static com.facebook.presto.benchmark.BenchmarkQueryRunner.createLocalQueryRunner;
 import static com.facebook.presto.common.type.DoubleType.DOUBLE;
 import static com.facebook.presto.operator.aggregation.GenericAccumulatorFactory.generateAccumulatorFactory;
-import static com.facebook.presto.sql.analyzer.TypeSignatureProvider.fromTypes;
+import static com.facebook.presto.spi.analyzer.TypeSignatureProvider.fromTypes;
 
 public class DoubleSumAggregationBenchmark
         extends AbstractSimpleOperatorBenchmark

@@ -66,7 +66,7 @@ import static com.facebook.presto.operator.aggregation.AggregationTestUtils.asse
 import static com.facebook.presto.operator.aggregation.GenericAccumulatorFactory.generateAccumulatorFactory;
 import static com.facebook.presto.operator.aggregation.histogram.Histogram.NAME;
 import static com.facebook.presto.operator.aggregation.histogram.HistogramGroupImplementation.NEW;
-import static com.facebook.presto.sql.analyzer.TypeSignatureProvider.fromTypes;
+import static com.facebook.presto.spi.analyzer.TypeSignatureProvider.fromTypes;
 import static com.facebook.presto.util.DateTimeZoneIndex.getDateTimeZone;
 import static com.facebook.presto.util.StructuralTestUtil.mapBlockOf;
 import static com.facebook.presto.util.StructuralTestUtil.mapType;

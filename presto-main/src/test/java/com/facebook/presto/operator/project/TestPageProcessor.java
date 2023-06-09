@@ -69,7 +69,7 @@ import static com.facebook.presto.operator.project.PageProcessor.MAX_PAGE_SIZE_I
 import static com.facebook.presto.operator.project.PageProcessor.MIN_PAGE_SIZE_IN_BYTES;
 import static com.facebook.presto.operator.project.SelectedPositions.positionsList;
 import static com.facebook.presto.operator.project.SelectedPositions.positionsRange;
-import static com.facebook.presto.sql.analyzer.TypeSignatureProvider.fromTypes;
+import static com.facebook.presto.spi.analyzer.TypeSignatureProvider.fromTypes;
 import static com.facebook.presto.sql.relational.Expressions.call;
 import static com.facebook.presto.sql.relational.Expressions.constant;
 import static com.facebook.presto.sql.relational.Expressions.field;

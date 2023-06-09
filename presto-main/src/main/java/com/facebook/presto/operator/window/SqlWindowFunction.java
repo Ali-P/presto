@@ -13,9 +13,9 @@
  */
 package com.facebook.presto.operator.window;
 
-import com.facebook.presto.metadata.BoundVariables;
 import com.facebook.presto.metadata.BuiltInFunction;
 import com.facebook.presto.metadata.FunctionAndTypeManager;
+import com.facebook.presto.spi.function.BoundVariables;
 import com.facebook.presto.spi.function.Signature;
 import com.facebook.presto.spi.function.SqlFunctionVisibility;
 

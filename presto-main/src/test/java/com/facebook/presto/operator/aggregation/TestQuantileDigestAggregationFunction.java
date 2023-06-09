@@ -43,7 +43,7 @@ import static com.facebook.presto.operator.aggregation.AggregationTestUtils.asse
 import static com.facebook.presto.operator.aggregation.FloatingPointBitsConverterUtil.doubleToSortableLong;
 import static com.facebook.presto.operator.aggregation.FloatingPointBitsConverterUtil.floatToSortableInt;
 import static com.facebook.presto.operator.aggregation.TestMergeQuantileDigestFunction.QDIGEST_EQUALITY;
-import static com.facebook.presto.sql.analyzer.TypeSignatureProvider.fromTypes;
+import static com.facebook.presto.spi.analyzer.TypeSignatureProvider.fromTypes;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static java.lang.Double.NaN;
 

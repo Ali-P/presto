@@ -71,8 +71,8 @@ import static com.facebook.presto.metadata.MetadataManager.createTestMetadataMan
 import static com.facebook.presto.operator.project.PageProcessor.MAX_BATCH_SIZE;
 import static com.facebook.presto.operator.project.SelectedPositions.positionsList;
 import static com.facebook.presto.operator.project.SelectedPositions.positionsRange;
+import static com.facebook.presto.spi.analyzer.TypeSignatureProvider.fromTypes;
 import static com.facebook.presto.spi.relation.SpecialFormExpression.Form.AND;
-import static com.facebook.presto.sql.analyzer.TypeSignatureProvider.fromTypes;
 import static com.facebook.presto.sql.relational.Expressions.call;
 import static com.facebook.presto.sql.relational.Expressions.constant;
 import static com.facebook.presto.sql.relational.Expressions.field;

@@ -21,9 +21,9 @@ import com.facebook.presto.common.type.Type;
 import com.facebook.presto.common.type.TypeSignature;
 import com.facebook.presto.metadata.FunctionAndTypeManager;
 import com.facebook.presto.spi.Plugin;
+import com.facebook.presto.spi.analyzer.TypeSignatureProvider;
 import com.facebook.presto.spi.function.FunctionHandle;
 import com.facebook.presto.spi.function.JavaAggregationFunctionImplementation;
-import com.facebook.presto.sql.analyzer.TypeSignatureProvider;
 import com.facebook.presto.sql.tree.QualifiedName;
 import com.google.common.collect.Lists;
 import org.testng.annotations.AfterClass;
@@ -37,7 +37,7 @@ import static com.facebook.presto.metadata.FunctionAndTypeManager.createTestFunc
 import static com.facebook.presto.metadata.FunctionAndTypeManager.qualifyObjectName;
 import static com.facebook.presto.metadata.FunctionExtractor.extractFunctions;
 import static com.facebook.presto.operator.aggregation.AggregationTestUtils.assertAggregation;
-import static com.facebook.presto.sql.analyzer.TypeSignatureProvider.fromTypeSignatures;
+import static com.facebook.presto.spi.analyzer.TypeSignatureProvider.fromTypeSignatures;
 import static com.facebook.presto.testing.TestingSession.testSessionBuilder;
 import static java.util.Objects.requireNonNull;
 

@@ -15,12 +15,12 @@ package com.facebook.presto.operator.scalar.distinct;
 
 import com.facebook.presto.common.type.DistinctType;
 import com.facebook.presto.common.type.Type;
-import com.facebook.presto.metadata.BoundVariables;
 import com.facebook.presto.metadata.FunctionAndTypeManager;
 import com.facebook.presto.metadata.FunctionInvoker;
 import com.facebook.presto.metadata.SqlOperator;
 import com.facebook.presto.operator.scalar.BuiltInScalarFunctionImplementation;
 import com.facebook.presto.operator.scalar.ScalarFunctionImplementationChoice;
+import com.facebook.presto.spi.function.BoundVariables;
 import com.facebook.presto.spi.function.FunctionHandle;
 import com.facebook.presto.spi.function.InvocationConvention;
 import com.google.common.collect.ImmutableList;
@@ -34,11 +34,11 @@ import static com.facebook.presto.common.type.TypeSignature.parseTypeSignature;
 import static com.facebook.presto.operator.scalar.ScalarFunctionImplementationChoice.ArgumentProperty.valueTypeArgumentProperty;
 import static com.facebook.presto.operator.scalar.ScalarFunctionImplementationChoice.NullConvention.BLOCK_AND_POSITION;
 import static com.facebook.presto.operator.scalar.ScalarFunctionImplementationChoice.ReturnPlaceConvention;
+import static com.facebook.presto.spi.analyzer.TypeSignatureProvider.fromTypes;
 import static com.facebook.presto.spi.function.InvocationConvention.InvocationArgumentConvention.BLOCK_POSITION;
 import static com.facebook.presto.spi.function.InvocationConvention.InvocationArgumentConvention.NULL_FLAG;
 import static com.facebook.presto.spi.function.InvocationConvention.InvocationReturnConvention.FAIL_ON_NULL;
 import static com.facebook.presto.spi.function.Signature.withVariadicBound;
-import static com.facebook.presto.sql.analyzer.TypeSignatureProvider.fromTypes;
 
 public class DistinctTypeDistinctFromOperator
         extends SqlOperator

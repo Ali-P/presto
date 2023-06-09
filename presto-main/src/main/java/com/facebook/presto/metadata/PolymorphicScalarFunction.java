@@ -22,6 +22,7 @@ import com.facebook.presto.operator.scalar.ScalarFunctionImplementationChoice;
 import com.facebook.presto.operator.scalar.ScalarFunctionImplementationChoice.ArgumentProperty;
 import com.facebook.presto.operator.scalar.ScalarFunctionImplementationChoice.NullConvention;
 import com.facebook.presto.operator.scalar.ScalarFunctionImplementationChoice.ReturnPlaceConvention;
+import com.facebook.presto.spi.function.BoundVariables;
 import com.facebook.presto.spi.function.Signature;
 import com.facebook.presto.spi.function.SqlFunctionVisibility;
 import com.facebook.presto.util.Reflection;
@@ -34,9 +35,9 @@ import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Optional;
 
-import static com.facebook.presto.metadata.SignatureBinder.applyBoundVariables;
 import static com.facebook.presto.operator.scalar.ScalarFunctionImplementationChoice.NullConvention.BLOCK_AND_POSITION;
 import static com.facebook.presto.operator.scalar.ScalarFunctionImplementationChoice.NullConvention.USE_NULL_FLAG;
+import static com.facebook.presto.spi.function.SignatureBinder.applyBoundVariables;
 import static com.google.common.base.Preconditions.checkState;
 import static java.util.Collections.emptyList;
 import static java.util.Objects.requireNonNull;

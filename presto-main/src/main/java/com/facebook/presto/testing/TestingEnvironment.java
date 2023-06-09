@@ -20,7 +20,7 @@ import com.facebook.presto.metadata.FunctionAndTypeManager;
 import java.lang.invoke.MethodHandle;
 
 import static com.facebook.presto.metadata.FunctionAndTypeManager.createTestFunctionAndTypeManager;
-import static com.facebook.presto.sql.analyzer.TypeSignatureProvider.fromTypes;
+import static com.facebook.presto.spi.analyzer.TypeSignatureProvider.fromTypes;
 
 public class TestingEnvironment
 {

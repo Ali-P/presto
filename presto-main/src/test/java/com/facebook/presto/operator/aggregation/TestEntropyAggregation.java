@@ -33,7 +33,7 @@ import java.util.stream.IntStream;
 import static com.facebook.presto.block.BlockAssertions.createLongsBlock;
 import static com.facebook.presto.common.type.BigintType.BIGINT;
 import static com.facebook.presto.operator.aggregation.AggregationTestUtils.assertAggregation;
-import static com.facebook.presto.sql.analyzer.TypeSignatureProvider.fromTypes;
+import static com.facebook.presto.spi.analyzer.TypeSignatureProvider.fromTypes;
 import static org.testng.Assert.assertTrue;
 
 public class TestEntropyAggregation

@@ -21,10 +21,10 @@ import com.facebook.presto.common.type.IntegerType;
 import com.facebook.presto.common.type.RealType;
 import com.facebook.presto.common.type.RowType;
 import com.facebook.presto.common.type.Type;
-import com.facebook.presto.metadata.BoundVariables;
 import com.facebook.presto.metadata.BuiltInFunction;
 import com.facebook.presto.metadata.FunctionAndTypeManager;
 import com.facebook.presto.metadata.SqlAggregationFunction;
+import com.facebook.presto.spi.function.BoundVariables;
 import com.google.common.collect.ImmutableList;
 
 import java.util.ArrayList;

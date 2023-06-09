@@ -21,7 +21,7 @@ import com.facebook.presto.common.type.StandardTypes;
 import com.facebook.presto.common.type.Type;
 import com.facebook.presto.common.type.TypeSignatureParameter;
 import com.facebook.presto.common.type.VarcharType;
-import com.facebook.presto.metadata.BoundVariables;
+import com.facebook.presto.spi.function.BoundVariables;
 import com.facebook.presto.metadata.FunctionAndTypeManager;
 import com.facebook.presto.ml.type.ClassifierParametricType;
 import com.facebook.presto.ml.type.ClassifierType;
