@@ -74,9 +74,10 @@ public final class TypeCalculation
 
     private static ParserRuleContext parseTypeCalculation(String calculation)
     {
-        TypeCalculationLexer lexer = new TypeCalculationLexer(new CaseInsensitiveStream(new ANTLRInputStream(calculation)));
+        // TODO (AP): Find out why `com.facebook.presto.spi.type.` prefix was needed to compile
+        com.facebook.presto.spi.type.TypeCalculationLexer lexer = new com.facebook.presto.spi.type.TypeCalculationLexer(new CaseInsensitiveStream(new ANTLRInputStream(calculation)));
         CommonTokenStream tokenStream = new CommonTokenStream(lexer);
-        TypeCalculationParser parser = new TypeCalculationParser(tokenStream);
+        com.facebook.presto.spi.type.TypeCalculationParser parser = new com.facebook.presto.spi.type.TypeCalculationParser(tokenStream);
 
         lexer.removeErrorListeners();
         lexer.addErrorListener(ERROR_LISTENER);
@@ -102,7 +103,7 @@ public final class TypeCalculation
     }
 
     private static class IsSimpleExpressionVisitor
-            extends TypeCalculationBaseVisitor<Boolean>
+            extends com.facebook.presto.spi.type.TypeCalculationBaseVisitor<Boolean>
     {
         @Override
         public Boolean visitArithmeticBinary(ArithmeticBinaryContext ctx)
@@ -130,7 +131,7 @@ public final class TypeCalculation
     }
 
     private static class CalculateTypeVisitor
-            extends TypeCalculationBaseVisitor<BigInteger>
+            extends com.facebook.presto.spi.type.TypeCalculationBaseVisitor<BigInteger>
     {
         private final Map<String, Long> inputs;
 

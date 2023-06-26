@@ -8,6 +8,7 @@
         "paramTypes":[
           "INT"
         ],
+        "typeVariableConstraints": [],
         "schema":"test_schema",
         "routineCharacteristics": {
           "language":"CPP",
@@ -26,6 +27,7 @@
         "paramTypes":[
           "DOUBLE"
         ],
+        "typeVariableConstraints": [],
         "schema":"test_schema",
         "routineCharacteristics": {
           "language":"CPP",

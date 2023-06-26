@@ -18,12 +18,15 @@ import com.facebook.presto.common.Page;
 import com.facebook.presto.common.QualifiedObjectName;
 import com.facebook.presto.common.block.BlockEncodingSerde;
 import com.facebook.presto.common.function.SqlFunctionResult;
+import com.facebook.presto.common.type.Type;
 import com.facebook.presto.common.type.TypeManager;
 import com.facebook.presto.common.type.UserDefinedType;
 import com.facebook.presto.functionNamespace.execution.SqlFunctionExecutors;
 import com.facebook.presto.spi.PrestoException;
+import com.facebook.presto.spi.analyzer.TypeSignatureProvider;
 import com.facebook.presto.spi.function.AggregationFunctionImplementation;
 import com.facebook.presto.spi.function.AggregationFunctionMetadata;
+import com.facebook.presto.spi.function.BoundVariables;
 import com.facebook.presto.spi.function.FunctionHandle;
 import com.facebook.presto.spi.function.FunctionImplementationType;
 import com.facebook.presto.spi.function.FunctionMetadata;
@@ -33,9 +36,10 @@ import com.facebook.presto.spi.function.Parameter;
 import com.facebook.presto.spi.function.RemoteScalarFunctionImplementation;
 import com.facebook.presto.spi.function.ScalarFunctionImplementation;
 import com.facebook.presto.spi.function.Signature;
+import com.facebook.presto.spi.function.SignatureBinder;
+import com.facebook.presto.spi.function.SpecializedFunctionKey;
 import com.facebook.presto.spi.function.SqlFunction;
 import com.facebook.presto.spi.function.SqlFunctionHandle;
-import com.facebook.presto.spi.function.SqlFunctionId;
 import com.facebook.presto.spi.function.SqlInvokedAggregationFunctionImplementation;
 import com.facebook.presto.spi.function.SqlInvokedFunction;
 import com.facebook.presto.spi.function.SqlInvokedScalarFunctionImplementation;
@@ -47,6 +51,7 @@ import com.google.common.util.concurrent.UncheckedExecutionException;
 import javax.annotation.ParametersAreNonnullByDefault;
 import javax.annotation.concurrent.GuardedBy;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -55,11 +60,16 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
+import static com.facebook.presto.common.type.TypeUtils.resolveTypes;
+import static com.facebook.presto.spi.StandardErrorCode.FUNCTION_IMPLEMENTATION_MISSING;
 import static com.facebook.presto.spi.StandardErrorCode.GENERIC_INTERNAL_ERROR;
 import static com.facebook.presto.spi.StandardErrorCode.GENERIC_USER_ERROR;
 import static com.facebook.presto.spi.StandardErrorCode.NOT_FOUND;
+import static com.facebook.presto.spi.analyzer.TypeSignatureProvider.fromTypeSignatures;
 import static com.facebook.presto.spi.function.FunctionKind.AGGREGATE;
+import static com.facebook.presto.spi.function.SignatureBinder.applyBoundVariables;
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Throwables.throwIfInstanceOf;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.collect.ImmutableMap.toImmutableMap;
 import static java.lang.String.format;
@@ -78,6 +88,7 @@ public abstract class AbstractSqlInvokedFunctionNamespaceManager
     private final LoadingCache<QualifiedObjectName, UserDefinedType> userDefinedTypes;
     private final LoadingCache<SqlFunctionHandle, FunctionMetadata> metadataByHandle;
     private final LoadingCache<SqlFunctionHandle, ScalarFunctionImplementation> implementationByHandle;
+    private final Map<Signature, SpecializedFunctionKey> specializedFunctionKeyCache = new ConcurrentHashMap<>();
 
     public AbstractSqlInvokedFunctionNamespaceManager(String catalogName, SqlFunctionExecutors sqlFunctionExecutors, SqlInvokedFunctionNamespaceManagerConfig config)
     {
@@ -192,26 +203,27 @@ public abstract class AbstractSqlInvokedFunctionNamespaceManager
     }
 
     @Override
-    public final FunctionHandle getFunctionHandle(Optional<? extends FunctionNamespaceTransactionHandle> transactionHandle, Signature signature)
+    public final FunctionHandle getFunctionHandle(Optional<? extends FunctionNamespaceTransactionHandle> transactionHandle, Signature signature, TypeManager typeManager)
     {
         checkCatalog(signature.getName());
         // This is the only assumption in this class that we're dealing with sql-invoked regular function.
-        SqlFunctionId functionId = new SqlFunctionId(signature.getName(), signature.getArgumentTypes());
         if (transactionHandle.isPresent()) {
-            return transactions.get(transactionHandle.get()).getFunctionHandle(functionId);
+            return transactions.get(transactionHandle.get()).getFunctionHandle(signature, typeManager);
         }
         FunctionCollection collection = new FunctionCollection();
         collection.loadAndGetFunctionsTransactional(signature.getName());
-        return collection.getFunctionHandle(functionId);
+        return collection.getFunctionHandle(signature, typeManager);
     }
 
     @Override
-    public final FunctionMetadata getFunctionMetadata(FunctionHandle functionHandle)
+    public final FunctionMetadata getFunctionMetadata(FunctionHandle functionHandle, TypeManager typeManager)
     {
         checkCatalog(functionHandle);
         checkArgument(functionHandle instanceof SqlFunctionHandle, "Unsupported FunctionHandle type '%s'", functionHandle.getClass().getSimpleName());
         try {
-            return metadataByHandle.getUnchecked((SqlFunctionHandle) functionHandle);
+            SqlFunctionHandle sqlFunctionHandle = (SqlFunctionHandle) functionHandle;
+            FunctionMetadata metadata = metadataByHandle.getUnchecked(sqlFunctionHandle);
+            return updateMetadataWithSignature(metadata, sqlFunctionHandle.getSignature());
         }
         catch (UncheckedExecutionException e) {
             throw convertToPrestoException(e, format("Error getting FunctionMetadata for handle: %s", functionHandle));
@@ -235,7 +247,7 @@ public abstract class AbstractSqlInvokedFunctionNamespaceManager
     public CompletableFuture<SqlFunctionResult> executeFunction(String source, FunctionHandle functionHandle, Page input, List<Integer> channels, TypeManager typeManager)
     {
         checkArgument(functionHandle instanceof SqlFunctionHandle, format("Expect SqlFunctionHandle, got %s", functionHandle.getClass()));
-        FunctionMetadata functionMetadata = getFunctionMetadata(functionHandle);
+        FunctionMetadata functionMetadata = getFunctionMetadata(functionHandle, typeManager);
         return sqlFunctionExecutors.executeFunction(
                 source,
                 getScalarFunctionImplementation(functionHandle),
@@ -311,6 +323,21 @@ public abstract class AbstractSqlInvokedFunctionNamespaceManager
                 function.isCalledOnNullInput(),
                 function.getVersion());
     }
+    protected FunctionMetadata updateMetadataWithSignature(FunctionMetadata oldMetadata, Signature signature)
+    {
+        checkArgument(oldMetadata.getLanguage().isPresent(), "Metadata is not present");
+        return new FunctionMetadata(
+                oldMetadata.getName(),
+                signature.getArgumentTypes(),
+                oldMetadata.getArgumentNames().orElseGet(ArrayList::new),
+                signature.getReturnType(),
+                signature.getKind(),
+                oldMetadata.getLanguage().get(),
+                oldMetadata.getImplementationType(),
+                oldMetadata.isDeterministic(),
+                oldMetadata.isCalledOnNullInput(),
+                oldMetadata.getVersion());
+    }
 
     protected FunctionImplementationType getFunctionImplementationType(SqlInvokedFunction function)
     {
@@ -380,6 +407,63 @@ public abstract class AbstractSqlInvokedFunctionNamespaceManager
             throw convertToPrestoException(e, format("Error fetching functions: %s", functionName));
         }
     }
+    private SpecializedFunctionKey getSpecializedFunctionKey(Signature signature, TypeManager typeManager)
+    {
+        try {
+            return specializedFunctionKeyCache.computeIfAbsent(signature, k -> doGetSpecializedFunctionKey(k, typeManager));
+        }
+        catch (UncheckedExecutionException e) {
+            throwIfInstanceOf(e.getCause(), PrestoException.class);
+            throw e;
+        }
+    }
+
+    private SpecializedFunctionKey doGetSpecializedFunctionKey(Signature signature, TypeManager typeManager)
+    {
+        Iterable<SqlInvokedFunction> candidates = getFunctions(Optional.empty(), signature.getName());
+        // First, search for generic match with exact types
+        Type returnType = typeManager.getType(signature.getReturnType());
+        List<TypeSignatureProvider> argumentTypeSignatureProviders = fromTypeSignatures(signature.getArgumentTypes());
+        for (SqlFunction candidate : candidates) {
+            Optional<BoundVariables> boundVariables = new SignatureBinder(typeManager, candidate.getSignature(), false)
+                    .bindVariables(argumentTypeSignatureProviders, returnType);
+            if (boundVariables.isPresent()) {
+                return new SpecializedFunctionKey(candidate, boundVariables.get(), argumentTypeSignatureProviders.size());
+            }
+        }
+
+        // TODO (AP) [START]: do we even need this block of code? We may be able to remove it
+        // TODO: hack because there could be "type only" coercions (which aren't necessarily included as implicit casts),
+        // so do a second pass allowing "type only" coercions
+        List<Type> argumentTypes = resolveTypes(signature.getArgumentTypes(), typeManager);
+        for (SqlFunction candidate : candidates) {
+            SignatureBinder binder = new SignatureBinder(typeManager, candidate.getSignature(), true);
+            Optional<BoundVariables> boundVariables = binder.bindVariables(argumentTypeSignatureProviders, returnType);
+            if (!boundVariables.isPresent()) {
+                continue;
+            }
+            Signature boundSignature = applyBoundVariables(candidate.getSignature(), boundVariables.get(), argumentTypes.size());
+
+            if (!typeManager.isTypeOnlyCoercion(typeManager.getType(boundSignature.getReturnType()), returnType)) {
+                continue;
+            }
+            boolean nonTypeOnlyCoercion = false;
+            for (int i = 0; i < argumentTypes.size(); i++) {
+                Type expectedType = typeManager.getType(boundSignature.getArgumentTypes().get(i));
+                if (!typeManager.isTypeOnlyCoercion(argumentTypes.get(i), expectedType)) {
+                    nonTypeOnlyCoercion = true;
+                    break;
+                }
+            }
+            if (nonTypeOnlyCoercion) {
+                continue;
+            }
+
+            return new SpecializedFunctionKey(candidate, boundVariables.get(), argumentTypes.size());
+        }
+        // TODO (AP) [END]
+        throw new PrestoException(FUNCTION_IMPLEMENTATION_MISSING, format("%s not found", signature));
+    }
 
     private class FunctionCollection
     {
@@ -387,18 +471,37 @@ public abstract class AbstractSqlInvokedFunctionNamespaceManager
         private final Map<QualifiedObjectName, Collection<SqlInvokedFunction>> functions = new ConcurrentHashMap<>();
 
         @GuardedBy("this")
-        private final Map<SqlFunctionId, SqlFunctionHandle> functionHandles = new ConcurrentHashMap<>();
+        private final Map<Signature, SqlFunctionHandle> functionHandles = new ConcurrentHashMap<>();
 
         public synchronized Collection<SqlInvokedFunction> loadAndGetFunctionsTransactional(QualifiedObjectName functionName)
         {
             Collection<SqlInvokedFunction> functions = this.functions.computeIfAbsent(functionName, AbstractSqlInvokedFunctionNamespaceManager.this::fetchFunctions);
-            functionHandles.putAll(functions.stream().collect(toImmutableMap(SqlInvokedFunction::getFunctionId, SqlInvokedFunction::getRequiredFunctionHandle)));
+            functionHandles.putAll(functions.stream().collect(toImmutableMap(SqlInvokedFunction::getSignature, SqlInvokedFunction::getRequiredFunctionHandle)));
             return functions;
         }
 
-        public synchronized FunctionHandle getFunctionHandle(SqlFunctionId functionId)
+        public synchronized FunctionHandle getFunctionHandle(Signature signature, TypeManager typeManager)
         {
-            return functionHandles.get(functionId);
+            return getExactFunctionHandle(signature).orElseGet(() -> getGenericFunctionHandle(signature, typeManager));
+        }
+
+        private synchronized Optional<FunctionHandle> getExactFunctionHandle(Signature signature)
+        {
+            return functionHandles.get(signature) != null ? Optional.of(functionHandles.get(signature)) : Optional.empty();
+        }
+
+        // TODO (AP): Can you make the first lookup more efficient? 2nd+ lookups are efficient
+        private synchronized SqlFunctionHandle getGenericFunctionHandle(Signature signature, TypeManager typeManager) throws UncheckedExecutionException
+        {
+            SqlInvokedFunction function = (SqlInvokedFunction) getSpecializedFunctionKey(signature, typeManager).getFunction();
+            SqlFunctionHandle handle = new SqlFunctionHandle(
+                    functionHandles.get(function.getSignature()).getFunctionId(),
+                    functionHandles.get(function.getSignature()).getVersion(),
+                    signature);
+
+            functionHandles.put(signature, handle);
+            metadataByHandle.put(handle, sqlInvokedFunctionToMetadata(function));
+            return handle;
         }
     }
 }

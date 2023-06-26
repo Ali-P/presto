@@ -142,7 +142,7 @@ public class HiveFunctionNamespaceManager
         throw new IllegalStateException("Get function is not supported");
     }
 
-    public FunctionHandle getFunctionHandle(Optional<? extends FunctionNamespaceTransactionHandle> transactionHandle, Signature signature)
+    public FunctionHandle getFunctionHandle(Optional<? extends FunctionNamespaceTransactionHandle> transactionHandle, Signature signature, TypeManager typeManager)
     {
         throw new IllegalStateException("Get function handle is not supported");
     }
@@ -152,7 +152,7 @@ public class HiveFunctionNamespaceManager
         return new HiveFunctionHandle(initializeFunction(FunctionKey.of(functionName, parameterTypes)).getSignature());
     }
 
-    public FunctionMetadata getFunctionMetadata(FunctionHandle functionHandle)
+    public FunctionMetadata getFunctionMetadata(FunctionHandle functionHandle, TypeManager typeManager)
     {
         checkArgument(functionHandle instanceof HiveFunctionHandle);
         HiveFunction function = functions.getUnchecked(FunctionKey.from((HiveFunctionHandle) functionHandle));

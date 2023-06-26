@@ -149,8 +149,8 @@ public class TestSqlInvokedFunctionNamespaceManager
         assertNotSame(metadata1, metadata2);
 
         // getFunctionMetadata produces the same metadata reference
-        metadata1 = functionNamespaceManager.getFunctionMetadata(function1.getRequiredFunctionHandle());
-        metadata2 = functionNamespaceManager.getFunctionMetadata(function2.getRequiredFunctionHandle());
+        metadata1 = functionNamespaceManager.getFunctionMetadata(function1.getRequiredFunctionHandle(), null);
+        metadata2 = functionNamespaceManager.getFunctionMetadata(function2.getRequiredFunctionHandle(), null);
         assertSame(metadata1, metadata2);
 
         // getFunctions produces the same function collection reference
@@ -175,8 +175,8 @@ public class TestSqlInvokedFunctionNamespaceManager
         assertEquals(functionNamespaceManager.getUserDefinedType(QualifiedObjectName.valueOf("catalog.schema.type")), Optional.empty());
 
         // ErrorThrowingFunctionNamespaceManager throws a PrestoException that gets propagated
-        assertPrestoException(() -> functionNamespaceManager.getFunctionMetadata(new SqlFunctionHandle(FUNCTION_POWER_TOWER_DOUBLE.getFunctionId(), "123")), GENERIC_USER_ERROR, "Error fetching function metadata");
-        assertPrestoException(() -> functionNamespaceManager.getFunctionHandle(Optional.empty(), FUNCTION_POWER_TOWER_DOUBLE.getSignature()), GENERIC_USER_ERROR, "Error fetching functions");
+        assertPrestoException(() -> functionNamespaceManager.getFunctionMetadata(new SqlFunctionHandle(FUNCTION_POWER_TOWER_DOUBLE.getFunctionId(), "123"), null), GENERIC_USER_ERROR, "Error fetching function metadata");
+        assertPrestoException(() -> functionNamespaceManager.getFunctionHandle(Optional.empty(), FUNCTION_POWER_TOWER_DOUBLE.getSignature(), null), GENERIC_USER_ERROR, "Error fetching functions");
 
         // ErrorThrowingFunctionNamespaceManager throws an exception that is not a PrestoException. It gets wrapped in a PrestoException GENERIC_INTERNAL_ERROR
         assertPrestoException(() -> functionNamespaceManager.getScalarFunctionImplementation(new SqlFunctionHandle(FUNCTION_POWER_TOWER_DOUBLE.getFunctionId(), "123")), GENERIC_INTERNAL_ERROR, "Error getting ScalarFunctionImplementation for handle: unittest\\.memory\\.power_tower\\(double\\):123");

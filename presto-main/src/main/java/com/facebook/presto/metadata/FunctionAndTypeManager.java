@@ -283,7 +283,7 @@ public class FunctionAndTypeManager
         }
         Optional<FunctionNamespaceManager<?>> functionNamespaceManager = getServingFunctionNamespaceManager(functionHandle.getCatalogSchemaName());
         checkArgument(functionNamespaceManager.isPresent(), "Cannot find function namespace for '%s'", functionHandle.getCatalogSchemaName());
-        return functionNamespaceManager.get().getFunctionMetadata(functionHandle);
+        return functionNamespaceManager.get().getFunctionMetadata(functionHandle, this);
     }
 
     @Override
@@ -599,7 +599,7 @@ public class FunctionAndTypeManager
             throw new PrestoException(FUNCTION_NOT_FOUND, constructFunctionNotFoundErrorMessage(functionName, parameterTypes, candidates));
         }
 
-        return builtInTypeAndFunctionNamespaceManager.getFunctionHandle(Optional.empty(), match.get());
+        return builtInTypeAndFunctionNamespaceManager.getFunctionHandle(Optional.empty(), match.get(), this);
     }
 
     public FunctionHandle lookupCast(CastType castType, Type fromType, Type toType)
@@ -619,7 +619,7 @@ public class FunctionAndTypeManager
             }
             throw e;
         }
-        return builtInTypeAndFunctionNamespaceManager.getFunctionHandle(Optional.empty(), signature);
+        return builtInTypeAndFunctionNamespaceManager.getFunctionHandle(Optional.empty(), signature, this);
     }
 
     protected Type getType(UserDefinedType userDefinedType)
@@ -668,7 +668,7 @@ public class FunctionAndTypeManager
 
         Optional<Signature> match = functionSignatureMatcher.match(candidates, parameterTypes, true);
         if (match.isPresent()) {
-            return functionNamespaceManager.getFunctionHandle(transactionHandle, match.get());
+            return functionNamespaceManager.getFunctionHandle(transactionHandle, match.get(), this);
         }
 
         if (functionName.getObjectName().startsWith(MAGIC_LITERAL_FUNCTION_PREFIX)) {

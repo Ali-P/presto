@@ -9,6 +9,7 @@
           "ARRAY<ARRAY<BOOLEAN>>",
           "ARRAY<ARRAY<BOOLEAN>>"
         ],
+        "typeVariableConstraints": [],
         "schema": "test_schema",
         "routineCharacteristics": {
           "language": "CPP",
@@ -24,6 +25,7 @@
           "ARRAY<ARRAY<BIGINT>>",
           "ARRAY<ARRAY<BIGINT>>"
         ],
+        "typeVariableConstraints": [],
         "schema": "test_schema",
         "routineCharacteristics": {
           "language": "CPP",
@@ -39,6 +41,7 @@
           "ARRAY<DOUBLE>",
           "ARRAY<DOUBLE>"
         ],
+        "typeVariableConstraints": [],
         "schema": "test_schema",
         "routineCharacteristics": {
           "language": "CPP",
@@ -56,6 +59,7 @@
           "ARRAY<map<BIGINT, DOUBLE>>",
           "ARRAY<varchar>"
         ],
+        "typeVariableConstraints": [],
         "schema": "test_schema",
         "routineCharacteristics": {
           "language": "CPP",
@@ -72,6 +76,7 @@
           "ARRAY<ARRAY<BOOLEAN>>",
           "ARRAY<varchar>"
         ],
+        "typeVariableConstraints": [],
         "schema": "test_schema",
         "routineCharacteristics": {
           "language": "CPP",
@@ -88,6 +93,7 @@
         "paramTypes": [
           "int"
         ],
+        "typeVariableConstraints": [],
         "schema": "test_schema",
         "routineCharacteristics": {
           "language": "CPP",
@@ -102,6 +108,7 @@
         "paramTypes": [
           "double"
         ],
+        "typeVariableConstraints": [],
         "schema": "test_schema",
         "routineCharacteristics": {
           "language": "CPP",
@@ -118,6 +125,7 @@
         "paramTypes": [
           "int"
         ],
+        "typeVariableConstraints": [],
         "schema": "test_schema",
         "routineCharacteristics": {
           "language": "CPP",
@@ -136,6 +144,7 @@
         "paramTypes": [
           "double"
         ],
+        "typeVariableConstraints": [],
         "schema": "test_schema",
         "routineCharacteristics": {
           "language": "CPP",

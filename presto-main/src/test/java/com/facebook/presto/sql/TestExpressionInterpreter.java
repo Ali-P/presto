@@ -37,6 +37,7 @@ import com.facebook.presto.spi.function.FunctionKind;
 import com.facebook.presto.spi.function.Parameter;
 import com.facebook.presto.spi.function.RoutineCharacteristics;
 import com.facebook.presto.spi.function.SqlInvokedFunction;
+import com.facebook.presto.spi.function.TypeVariableConstraint;
 import com.facebook.presto.spi.relation.CallExpression;
 import com.facebook.presto.spi.relation.ConstantExpression;
 import com.facebook.presto.spi.relation.InputReferenceExpression;
@@ -123,12 +124,15 @@ public class TestExpressionInterpreter
 {
     public static final SqlInvokedFunction SQUARE_UDF_CPP = new SqlInvokedFunction(
             QualifiedObjectName.valueOf(new CatalogSchemaName("json", "test_schema"), "square"),
-            ImmutableList.of(new Parameter("x", parseTypeSignature(StandardTypes.BIGINT))),
-            parseTypeSignature(StandardTypes.BIGINT),
-            "Integer square",
+            ImmutableList.of(new Parameter("x", parseTypeSignature("T"))),
+            ImmutableList.of(new TypeVariableConstraint("T", false, false, null, false)),
+            parseTypeSignature("T"),
+            "square func",
             RoutineCharacteristics.builder().setDeterminism(DETERMINISTIC).setLanguage(CPP).build(),
             "",
-            notVersioned());
+            notVersioned(),
+            FunctionKind.SCALAR,
+            Optional.empty());
 
     public static final SqlInvokedFunction AVG_UDAF_CPP = new SqlInvokedFunction(
             QualifiedObjectName.valueOf(new CatalogSchemaName("json", "test_schema"), "avg"),

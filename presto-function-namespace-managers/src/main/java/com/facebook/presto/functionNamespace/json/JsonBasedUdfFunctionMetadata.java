@@ -17,6 +17,7 @@ import com.facebook.presto.common.type.TypeSignature;
 import com.facebook.presto.spi.function.AggregationFunctionMetadata;
 import com.facebook.presto.spi.function.FunctionKind;
 import com.facebook.presto.spi.function.RoutineCharacteristics;
+import com.facebook.presto.spi.function.TypeVariableConstraint;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.collect.ImmutableList;
@@ -52,6 +53,10 @@ public class JsonBasedUdfFunctionMetadata
      */
     private final List<TypeSignature> paramTypes;
     /**
+     * List of `TypeVariableConstraint`s for this function's generic parameters.
+     */
+    private final List<TypeVariableConstraint> typeVariableConstraints;
+    /**
      * Schema the function belongs to. Catalog.schema.function uniquely identifies a function.
      */
     private final String schema;
@@ -71,6 +76,7 @@ public class JsonBasedUdfFunctionMetadata
             @JsonProperty("functionKind") FunctionKind functionKind,
             @JsonProperty("outputType") TypeSignature outputType,
             @JsonProperty("paramTypes") List<TypeSignature> paramTypes,
+            @JsonProperty("typeVariableConstraints") List<TypeVariableConstraint> typeVariableConstraints,
             @JsonProperty("schema") String schema,
             @JsonProperty("routineCharacteristics") RoutineCharacteristics routineCharacteristics,
             @JsonProperty("aggregateMetadata") Optional<AggregationFunctionMetadata> aggregateMetadata)
@@ -79,6 +85,7 @@ public class JsonBasedUdfFunctionMetadata
         this.functionKind = requireNonNull(functionKind, "functionKind is null");
         this.outputType = requireNonNull(outputType, "outputType is null");
         this.paramTypes = ImmutableList.copyOf(requireNonNull(paramTypes, "paramTypes is null"));
+        this.typeVariableConstraints = ImmutableList.copyOf(requireNonNull(typeVariableConstraints, "typeVariableConstraints is null"));
         this.schema = requireNonNull(schema, "schema is null");
         this.routineCharacteristics = requireNonNull(routineCharacteristics, "routineCharacteristics is null");
         this.aggregateMetadata = requireNonNull(aggregateMetadata, "aggregateMetadata is null");
@@ -110,6 +117,11 @@ public class JsonBasedUdfFunctionMetadata
     public List<TypeSignature> getParamTypes()
     {
         return paramTypes;
+    }
+
+    public List<TypeVariableConstraint> getTypeVariableConstraints()
+    {
+        return typeVariableConstraints;
     }
 
     public String getSchema()

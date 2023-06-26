@@ -124,7 +124,7 @@ public class SqlInvokedFunction
         this.signature = new Signature(functionName, kind, typeVariableConstraints, emptyList(), returnType, argumentTypes, false);
         this.functionId = new SqlFunctionId(functionName, argumentTypes);
         this.functionVersion = requireNonNull(version, "version is null");
-        this.functionHandle = version.hasVersion() ? Optional.of(new SqlFunctionHandle(this.functionId, version.toString())) : Optional.empty();
+        this.functionHandle = version.hasVersion() ? Optional.of(new SqlFunctionHandle(this.functionId, version.toString(), signature)) : Optional.empty();
         this.aggregationMetadata = requireNonNull(aggregationMetadata, "aggregationMetadata is null");
 
         if ((kind == AGGREGATE && !aggregationMetadata.isPresent()) || (kind != AGGREGATE && aggregationMetadata.isPresent())) {
@@ -140,6 +140,7 @@ public class SqlInvokedFunction
         return new SqlInvokedFunction(
                 signature.getName(),
                 parameters,
+                signature.getTypeVariableConstraints(),
                 signature.getReturnType(),
                 description,
                 routineCharacteristics,

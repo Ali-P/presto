@@ -20,7 +20,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.Objects;
 
-import static com.facebook.presto.spi.function.FunctionKind.SCALAR;
 import static java.util.Objects.requireNonNull;
 
 @Experimental
@@ -29,14 +28,25 @@ public class SqlFunctionHandle
 {
     private final SqlFunctionId functionId;
     private final String version;
+    private final Signature signature;
 
     @JsonCreator
     public SqlFunctionHandle(
             @JsonProperty("functionId") SqlFunctionId functionId,
             @JsonProperty("version") String version)
     {
+        this(functionId, version, null);
+    }
+
+    @JsonCreator
+    public SqlFunctionHandle(
+            @JsonProperty("functionId") SqlFunctionId functionId,
+            @JsonProperty("version") String version,
+            @JsonProperty("signature") Signature signature)
+    {
         this.functionId = requireNonNull(functionId, "functionId is null");
         this.version = version;
+        this.signature = signature;
     }
 
     @JsonProperty
@@ -49,6 +59,12 @@ public class SqlFunctionHandle
     public String getVersion()
     {
         return version;
+    }
+
+    @JsonProperty
+    public Signature getSignature()
+    {
+        return signature;
     }
 
     @Override
@@ -66,7 +82,7 @@ public class SqlFunctionHandle
     @Override
     public FunctionKind getKind()
     {
-        return SCALAR;
+        return signature.getKind();
     }
 
     @Override
@@ -80,7 +96,8 @@ public class SqlFunctionHandle
         }
         SqlFunctionHandle o = (SqlFunctionHandle) obj;
         return Objects.equals(functionId, o.functionId)
-                && Objects.equals(version, o.version);
+                && Objects.equals(version, o.version)
+                && Objects.equals(signature, o.signature);
     }
 
     @Override

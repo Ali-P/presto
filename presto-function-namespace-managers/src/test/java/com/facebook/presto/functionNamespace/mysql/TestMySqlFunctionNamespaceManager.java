@@ -410,7 +410,7 @@ public class TestMySqlFunctionNamespaceManager
     {
         createFunction(FUNCTION_POWER_TOWER_DOUBLE, true);
         SqlFunctionHandle functionHandle = new SqlFunctionHandle(FUNCTION_POWER_TOWER_DOUBLE.getFunctionId(), "2");
-        functionNamespaceManager.getFunctionMetadata(functionHandle);
+        functionNamespaceManager.getFunctionMetadata(functionHandle, null);
     }
 
     private void createFunctionNamespace(String catalog, String schema)
@@ -465,7 +465,7 @@ public class TestMySqlFunctionNamespaceManager
 
     private void assertGetFunctionMetadata(FunctionHandle functionHandle, SqlInvokedFunction expectFunction)
     {
-        FunctionMetadata functionMetadata = functionNamespaceManager.getFunctionMetadata(functionHandle);
+        FunctionMetadata functionMetadata = functionNamespaceManager.getFunctionMetadata(functionHandle, null);
 
         assertEquals(functionMetadata.getName(), expectFunction.getSignature().getName());
         assertFalse(functionMetadata.getOperatorType().isPresent());

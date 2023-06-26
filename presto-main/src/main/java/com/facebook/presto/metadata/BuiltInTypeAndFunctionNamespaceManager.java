@@ -1028,13 +1028,13 @@ public class BuiltInTypeAndFunctionNamespaceManager
     }
 
     @Override
-    public FunctionHandle getFunctionHandle(Optional<? extends FunctionNamespaceTransactionHandle> transactionHandle, Signature signature)
+    public FunctionHandle getFunctionHandle(Optional<? extends FunctionNamespaceTransactionHandle> transactionHandle, Signature signature, TypeManager typeManager)
     {
         return new BuiltInFunctionHandle(signature);
     }
 
     @Override
-    public FunctionMetadata getFunctionMetadata(FunctionHandle functionHandle)
+    public FunctionMetadata getFunctionMetadata(FunctionHandle functionHandle, TypeManager typeManager)
     {
         checkArgument(functionHandle instanceof BuiltInFunctionHandle, "Expect BuiltInFunctionHandle");
         Signature signature = ((BuiltInFunctionHandle) functionHandle).getSignature();

@@ -108,6 +108,7 @@ public class JsonFileBasedFunctionNamespaceManager
         return new SqlInvokedFunction(
                 function.getSignature().getName(),
                 function.getParameters(),
+                function.getSignature().getTypeVariableConstraints(),
                 function.getSignature().getReturnType(),
                 function.getDescription(),
                 function.getRoutineCharacteristics(),
@@ -150,6 +151,7 @@ public class JsonFileBasedFunctionNamespaceManager
         return new SqlInvokedFunction(
                 qualifiedFunctionName,
                 parameterBuilder.build(),
+                jsonBasedUdfFunctionMetaData.getTypeVariableConstraints(),
                 jsonBasedUdfFunctionMetaData.getOutputType(),
                 jsonBasedUdfFunctionMetaData.getDocString(),
                 jsonBasedUdfFunctionMetaData.getRoutineCharacteristics(),
